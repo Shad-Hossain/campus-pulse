@@ -16,8 +16,34 @@
 </head>
 <body>
 
+<!-- ================= LANDING ================= -->
+<div id="landing-screen">
+  <div class="login-visual">
+    <div class="lv-corner tl"></div><div class="lv-corner tr"></div><div class="lv-corner bl"></div><div class="lv-corner br"></div>
+    <div class="crest">
+      <div class="crest-ring"><span>CP</span></div>
+      <div class="crest-est">CAMPUS PULSE · EST. UIU</div>
+    </div>
+    <div class="quote">
+      <span class="quote-mark">&ldquo;</span>
+      <h2>Everything happening at UIU, in one live feed.</h2>
+      <div class="gold-rule"></div>
+      <p>News, events, achievements, research grants and location-based alerts — kept in one place, for students, faculty and administrators alike.</p>
+    </div>
+  </div>
+  <div class="login-side">
+    <div class="login-card" style="text-align:center;">
+      <div class="mobile-brand" style="justify-content:center;"><span class="ring-dot"></span><span>Campus Pulse</span></div>
+      <h1>Welcome to Campus Pulse</h1>
+      <p class="tag">UIU's live feed for news, events, resources, research grants and campus alerts — for students, faculty and admins.</p>
+      <button class="btn-primary" id="landing-login-btn">Log in</button>
+      <button class="btn-secondary" id="landing-signup-btn">Create an account</button>
+    </div>
+  </div>
+</div>
+
 <!-- ================= LOGIN ================= -->
-<div id="login-screen">
+<div id="login-screen" style="display:none;">
   <div class="login-visual">
     <div class="lv-corner tl"></div><div class="lv-corner tr"></div><div class="lv-corner bl"></div><div class="lv-corner br"></div>
     <div class="crest">
@@ -33,6 +59,7 @@
   </div>
   <div class="login-side">
     <div class="login-card">
+      <button type="button" class="back-link" id="login-back-btn">← Back</button>
       <div class="mobile-brand"><span class="ring-dot"></span><span>Campus Pulse</span></div>
       <h1>Welcome back</h1>
       <p class="tag">Sign in to your UIU account</p>
@@ -49,6 +76,49 @@
       <button class="btn-primary" id="login-btn">Sign in</button>
       <p id="login-error" style="display:none;color:var(--clay);font-size:12.5px;margin:10px 0 0;"></p>
       <p style="color:var(--muted-soft);font-size:11.5px;margin:14px 0 0;line-height:1.6;">Demo accounts (password: <code>password123</code>): shad@uiu.ac.bd (student) · farhana@uiu.ac.bd (faculty) · admin@uiu.ac.bd (admin)</p>
+      <p style="font-size:12.5px;margin:16px 0 0;">New here? <button type="button" class="link-btn" id="go-signup-link" style="padding:0;">Create an account</button></p>
+    </div>
+  </div>
+</div>
+
+<!-- ================= SIGN UP ================= -->
+<div id="signup-screen" style="display:none;">
+  <div class="login-visual">
+    <div class="lv-corner tl"></div><div class="lv-corner tr"></div><div class="lv-corner bl"></div><div class="lv-corner br"></div>
+    <div class="crest">
+      <div class="crest-ring"><span>CP</span></div>
+      <div class="crest-est">CAMPUS PULSE · EST. UIU</div>
+    </div>
+    <div class="quote">
+      <span class="quote-mark">&ldquo;</span>
+      <h2>Everything happening at UIU, in one live feed.</h2>
+      <div class="gold-rule"></div>
+      <p>News, events, achievements, research grants and location-based alerts — kept in one place, for students, faculty and administrators alike.</p>
+    </div>
+  </div>
+  <div class="login-side">
+    <div class="login-card">
+      <button type="button" class="back-link" id="signup-back-btn">← Back</button>
+      <div class="mobile-brand"><span class="ring-dot"></span><span>Campus Pulse</span></div>
+      <h1>Create your account</h1>
+      <p class="tag">Sign up with your UIU email</p>
+      <div class="field"><label>Full name</label><input type="text" id="signup-name" placeholder="e.g. Shad Hossain"></div>
+      <div class="field"><label>UIU email</label><input type="text" id="signup-email" placeholder="you@uiu.ac.bd"></div>
+      <div class="field"><label>Password</label><input type="password" id="signup-pass" placeholder="At least 6 characters"></div>
+      <div class="field"><label>Department</label>
+        <select id="signup-dept"><option>CSE</option><option>EEE</option><option>BBA</option><option>Pharmacy</option><option>Civil</option></select>
+      </div>
+      <div class="field">
+        <label>I am a</label>
+        <div class="role-pick" id="signup-role-pick">
+          <button type="button" class="active" data-role="student">Student</button>
+          <button type="button" data-role="faculty">Faculty</button>
+          <button type="button" data-role="admin">Admin</button>
+        </div>
+      </div>
+      <button class="btn-primary" id="signup-btn">Sign up</button>
+      <p id="signup-error" style="display:none;color:var(--clay);font-size:12.5px;margin:10px 0 0;"></p>
+      <p style="font-size:12.5px;margin:16px 0 0;">Already have an account? <button type="button" class="link-btn" id="go-login-link" style="padding:0;">Log in</button></p>
     </div>
   </div>
 </div>
