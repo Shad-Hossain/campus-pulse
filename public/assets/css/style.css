@@ -23,7 +23,7 @@ a{color:inherit;}
 @keyframes pulseRing{0%{transform:scale(1);opacity:.7;}100%{transform:scale(3.2);opacity:0;}}
 
 /* ---------- LOGIN ---------- */
-#login-screen{min-height:100vh;display:flex;align-items:stretch;background:var(--paper);}
+#landing-screen, #login-screen, #signup-screen{min-height:100vh;display:flex;align-items:stretch;background:var(--paper);}
 .login-visual{
   flex:1.05;display:none;position:relative;overflow:hidden;flex-direction:column;align-items:center;justify-content:center;
   background:
@@ -72,6 +72,13 @@ a{color:inherit;}
 }
 .btn-primary:hover{background:var(--moss-dark);transform:translateY(-1px);}
 .btn-primary:active{transform:translateY(0);}
+.btn-secondary{
+  width:100%;padding:13px;border:1.5px solid var(--moss);border-radius:10px;background:transparent;color:var(--moss-ink);
+  font-size:14px;font-weight:600;margin-top:10px;transition:.15s var(--ease);
+}
+.btn-secondary:hover{background:var(--moss-light);}
+.back-link{background:none;border:none;color:var(--muted);font-size:12.5px;font-weight:600;padding:0;margin-bottom:16px;text-align:left;}
+.back-link:hover{color:var(--moss-ink);}
 
 /* ---------- APP SHELL ---------- */
 #app-shell{display:none;min-height:100vh;}
