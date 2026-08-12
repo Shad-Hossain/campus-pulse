@@ -236,6 +236,20 @@ async function renderDirectory(q){
 }
 document.getElementById('directory-search').addEventListener('input', (e)=> renderDirectory(e.target.value));
 
+/* ---------------- LANDING / LOGIN / SIGNUP SCREEN SWITCHING ---------------- */
+function showScreen(id){
+  ['landing-screen','login-screen','signup-screen','app-shell'].forEach(s=>{
+    document.getElementById(s).style.display = 'none';
+  });
+  document.getElementById(id).style.display = (id==='app-shell') ? 'block' : 'flex';
+}
+document.getElementById('landing-login-btn').addEventListener('click', ()=> showScreen('login-screen'));
+document.getElementById('landing-signup-btn').addEventListener('click', ()=> showScreen('signup-screen'));
+document.getElementById('login-back-btn').addEventListener('click', ()=> showScreen('landing-screen'));
+document.getElementById('signup-back-btn').addEventListener('click', ()=> showScreen('landing-screen'));
+document.getElementById('go-signup-link').addEventListener('click', ()=> showScreen('signup-screen'));
+document.getElementById('go-login-link').addEventListener('click', ()=> showScreen('login-screen'));
+
 /* ---------------- LOGIN FLOW ---------------- */
 let selectedRole = 'student';
 document.querySelectorAll('#role-pick button').forEach(btn=>{
@@ -257,10 +271,35 @@ document.getElementById('login-btn').addEventListener('click', async ()=>{
     errEl.textContent = e.message; errEl.style.display = 'block';
   }
 });
+
+/* ---------------- SIGN UP FLOW ---------------- */
+let selectedSignupRole = 'student';
+document.querySelectorAll('#signup-role-pick button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('#signup-role-pick button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active'); selectedSignupRole = btn.dataset.role;
+  });
+});
+
+document.getElementById('signup-btn').addEventListener('click', async ()=>{
+  const name = document.getElementById('signup-name').value.trim();
+  const email = document.getElementById('signup-email').value.trim();
+  const password = document.getElementById('signup-pass').value;
+  const department = document.getElementById('signup-dept').value;
+  const errEl = document.getElementById('signup-error');
+  errEl.style.display = 'none';
+  try{
+    const data = await api('api/register.php', {method:'POST', json:{name, email, password, department, role:selectedSignupRole}});
+    await enterApp(data.user);
+  }catch(e){
+    errEl.textContent = e.message; errEl.style.display = 'block';
+  }
+});
+
 document.getElementById('logout-btn').addEventListener('click', async ()=>{
   await api('api/logout.php', {method:'POST'});
   document.getElementById('app-shell').style.display = 'none';
-  document.getElementById('login-screen').style.display = 'flex';
+  showScreen('landing-screen');
   CURRENT_USER = null;
 });
 
@@ -273,8 +312,7 @@ function buildSidebar(role){
 
 async function enterApp(user){
   CURRENT_USER = user;
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('app-shell').style.display = 'block';
+  showScreen('app-shell');
   document.body.className = 'role-'+user.role;
   const label = user.role.charAt(0).toUpperCase()+user.role.slice(1);
   document.getElementById('role-tag').textContent = label;
