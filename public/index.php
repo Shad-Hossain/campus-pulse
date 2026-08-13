@@ -153,9 +153,10 @@
               <span class="badge" id="bell-badge">3</span>
             </button>
             <div class="bell-menu" id="bell-menu">
-              <div class="bell-item"><b>Class suspended — CSE building</b><div class="t">Water supply maintenance · 10m ago</div></div>
-              <div class="bell-item"><b>New event: Robotics Fest registration open</b><div class="t">1h ago</div></div>
-              <div class="bell-item"><b>Research grant deadline in 3 days</b><div class="t">3h ago</div></div>
+              <div class="bell-item" data-nid="1"><b>Class suspended — CSE building</b><div class="t">Water supply maintenance · 10m ago</div></div>
+              <div class="bell-item" data-nid="2"><b>New event: Robotics Fest registration open</b><div class="t">1h ago</div></div>
+              <div class="bell-item" data-nid="3"><b>Research grant deadline in 3 days</b><div class="t">3h ago</div></div>
+              <button type="button" class="bell-mark-all" id="bell-mark-all">Mark all as read</button>
             </div>
           </div>
           <button class="avatar" id="topbar-avatar" data-goto="profile" title="View profile">S</button>
@@ -394,7 +395,8 @@
     <h3 id="modal-title" style="margin:8px 0 6px;">Alert title</h3>
     <p id="modal-desc" style="font-size:13px;color:var(--muted);margin:0;">Description</p>
     <div class="map-thumb"><span class="pin">📍</span></div>
-    <p style="font-size:11.5px;color:var(--muted-soft);margin:0;">Reported 12 minutes ago · Near campus gate</p>
+    <p id="modal-meta" style="font-size:11.5px;color:var(--muted-soft);margin:10px 0 0;">Reported 12 minutes ago · Near campus gate</p>
+    <div id="modal-extra"></div>
   </div>
 </div>
 

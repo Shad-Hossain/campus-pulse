@@ -585,6 +585,55 @@ document.getElementById('profile-save-btn').addEventListener('click', async ()=>
   }catch(e){ alert(e.message); }
 });
 
+/* ---------------- NOTIFICATION PREFERENCE TOGGLES (profile page) ---------------- */
+function loadNotifPrefs(){
+  try{ return JSON.parse(localStorage.getItem('cp_notif_prefs')||'{}'); }catch{ return {}; }
+}
+function applyNotifPrefs(){
+  const prefs = loadNotifPrefs();
+  document.querySelectorAll('.notif-toggle').forEach(cb=>{
+    if (Object.prototype.hasOwnProperty.call(prefs, cb.dataset.pref)) cb.checked = !!prefs[cb.dataset.pref];
+  });
+}
+document.querySelectorAll('.notif-toggle').forEach(cb=>{
+  cb.addEventListener('change', ()=>{
+    const prefs = loadNotifPrefs();
+    prefs[cb.dataset.pref] = cb.checked;
+    localStorage.setItem('cp_notif_prefs', JSON.stringify(prefs));
+  });
+});
+applyNotifPrefs();
+
+/* ---------------- NOTIFICATION BELL (mark as read) ---------------- */
+function loadReadNotifIds(){
+  try{ return JSON.parse(localStorage.getItem('cp_notif_read')||'[]'); }catch{ return []; }
+}
+function saveReadNotifIds(ids){ localStorage.setItem('cp_notif_read', JSON.stringify(ids)); }
+function applyNotifReadState(){
+  const read = loadReadNotifIds();
+  document.querySelectorAll('.bell-item[data-nid]').forEach(el=>{
+    el.classList.toggle('read', read.includes(el.dataset.nid));
+  });
+  const unread = document.querySelectorAll('.bell-item[data-nid]:not(.read)').length;
+  const badge = document.getElementById('bell-badge');
+  if (unread > 0) { badge.textContent = unread; badge.style.display = ''; }
+  else { badge.style.display = 'none'; }
+}
+document.querySelectorAll('.bell-item[data-nid]').forEach(el=>{
+  el.addEventListener('click', ()=>{
+    const ids = loadReadNotifIds();
+    if (!ids.includes(el.dataset.nid)) { ids.push(el.dataset.nid); saveReadNotifIds(ids); }
+    applyNotifReadState();
+  });
+});
+document.getElementById('bell-mark-all').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  const ids = Array.from(document.querySelectorAll('.bell-item[data-nid]')).map(el=>el.dataset.nid);
+  saveReadNotifIds(ids);
+  applyNotifReadState();
+});
+applyNotifReadState();
+
 /* ---------------- THEME TOGGLE ---------------- */
 let isDark = false;
 document.getElementById('theme-toggle').addEventListener('click', ()=>{
