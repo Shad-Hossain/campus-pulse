@@ -366,10 +366,10 @@
           <div>
             <div class="section-title">Notification settings</div>
             <div class="stat-box">
-              <div class="saved-item"><span>Traffic alerts</span><span>On</span></div>
-              <div class="saved-item"><span>Weather alerts</span><span>On</span></div>
-              <div class="saved-item"><span>Event reminders</span><span>On</span></div>
-              <div class="saved-item"><span>Research &amp; grants</span><span>Off</span></div>
+              <div class="saved-item"><span>Traffic alerts</span><label class="switch"><input type="checkbox" class="notif-toggle" data-pref="traffic" checked><span class="switch-slider"></span></label></div>
+              <div class="saved-item"><span>Weather alerts</span><label class="switch"><input type="checkbox" class="notif-toggle" data-pref="weather" checked><span class="switch-slider"></span></label></div>
+              <div class="saved-item"><span>Event reminders</span><label class="switch"><input type="checkbox" class="notif-toggle" data-pref="events" checked><span class="switch-slider"></span></label></div>
+              <div class="saved-item"><span>Research &amp; grants</span><label class="switch"><input type="checkbox" class="notif-toggle" data-pref="grants"><span class="switch-slider"></span></label></div>
             </div>
           </div>
         </div>

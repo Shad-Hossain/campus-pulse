@@ -52,28 +52,32 @@ let ALL_ITEMS = [];
 
 /* ---------------- RENDER HELPERS ---------------- */
 function tagClass(cat){ if(cat==='Academic') return 'tag-academic'; if(cat==='Admin') return 'tag-admin'; if(cat==='Competition') return 'tag-competition'; return 'tag-club'; }
-function cardHTML(item, actions){
-  return `<div class="card">
+function cardHTML(item, actions, key){
+  return `<div class="card"${key?` data-key="${key}"`:''}>
     <span class="tag-pill ${tagClass(item.category||item.cat)}">${item.category||item.cat}</span>
     <h3>${item.title}</h3><p>${item.description||item.desc||''}</p>
     <div class="meta"><span>${item.meta||''}</span></div>
     ${actions||''}
   </div>`;
 }
-function render(id, items, actionsFn){
+function render(id, items, actionsFn, kind){
   const el = document.getElementById(id);
-  el.innerHTML = items.length ? items.map(i=>cardHTML(i, actionsFn?actionsFn(i):'')).join('') : '<div class="empty-state">No results match this filter.</div>';
+  el.innerHTML = items.length ? items.map(i=>{
+    const key = kind ? registerCard(kind, i) : null;
+    return cardHTML(i, actionsFn?actionsFn(i):'', key);
+  }).join('') : '<div class="empty-state">No results match this filter.</div>';
 }
 
 /* ---------------- HOME / ACHIEVEMENTS ---------------- */
-function renderHome(){ render('home-news-grid', NEWS); }
-function renderAchievements(){ render('achieve-grid', ACHIEVE); render('grant-grid', GRANTS); }
+function renderHome(){ render('home-news-grid', NEWS, null, 'news'); }
+function renderAchievements(){ render('achieve-grid', ACHIEVE, null, 'achievement'); render('grant-grid', GRANTS, null, 'grant'); }
 
 /* ---------------- EVENTS ---------------- */
 function eventCardHTML(item){
+  const key = registerCard('event', item);
   const count = item.interest_count||0; const pct = Math.min(100, count);
   const pinged = item._pinged ? 'pinged' : '';
-  return `<div class="card">
+  return `<div class="card" data-key="${key}">
     <span class="tag-pill ${tagClass(item.category)}">${item.category}</span>
     <h3>${item.title}</h3><p>${item.description||''}</p>
     <div class="meta"><span>${item.meta||''}</span></div>
@@ -131,7 +135,8 @@ function renderQuickLinks(){
 }
 let activeResourceKind = 'notes';
 function resourceCardHTML(r){
-  return `<div class="card">
+  const key = registerCard('resource', r);
+  return `<div class="card" data-key="${key}">
     <span class="tag-pill ${r.kind==='notes'?'tag-academic':'tag-competition'}">${r.course_code}</span>
     <h3>${r.title}</h3>
     <div class="meta"><span>Uploaded by ${r.uploader_name||'Unknown'}</span></div>
@@ -175,7 +180,7 @@ async function loadResources(){
 
 /* ---------------- RESEARCH & GRANTS ---------------- */
 function renderMyGrants(){
-  render('my-grants-grid', MY_GRANTS.map(g=>({category:'Admin', title:g.title, description:g.description, meta:''})), ()=>'');
+  render('my-grants-grid', MY_GRANTS.map(g=>({id:g.id, status:g.status, category:'Admin', title:g.title, description:g.description, meta:''})), ()=>'', 'grant-mine');
   document.querySelectorAll('#my-grants-grid .card').forEach((card,i)=>{
     const st = MY_GRANTS[i].status;
     const cls = st==='approved'?'badge-approved':(st==='rejected'?'badge-rejected':'badge-pending');
@@ -487,10 +492,62 @@ document.getElementById('ticker-click').addEventListener('click', ()=>{
   document.getElementById('modal-tag').textContent = tag; document.getElementById('modal-tag').className='tag-pill '+tagClass;
   document.getElementById('modal-title').textContent = a.message; document.getElementById('modal-desc').textContent = desc;
   document.querySelector('.map-thumb').style.display = showMap ? 'block' : 'none';
+  document.getElementById('modal-meta').textContent = 'Reported a few minutes ago · Near campus gate';
+  document.getElementById('modal-extra').innerHTML = '';
   backdrop.classList.add('open');
 });
 document.getElementById('modal-close').addEventListener('click', ()=> backdrop.classList.remove('open'));
 backdrop.addEventListener('click', (e)=>{ if(e.target===backdrop) backdrop.classList.remove('open'); });
+
+/* ---------------- CARD DETAIL MODAL (click any news/event/achievement/resource/grant card) ---------------- */
+const CARD_LOOKUP = {};
+function registerCard(kind, item){
+  const key = `${kind}-${item.id}`;
+  CARD_LOOKUP[key] = { kind, item };
+  return key;
+}
+function cardDetailExtraHTML(kind, item){
+  if (kind === 'event') {
+    const count = item.interest_count || 0;
+    return `<div class="interest-row" style="margin-top:14px;">
+      <div class="interest-bar"><div class="interest-bar-fill" style="width:${Math.min(100,count)}%"></div></div>
+      <button class="interest-btn ${item._pinged?'pinged':''}" onclick="pingInterest(${item.id})">🔥 ${count} interested</button>
+    </div>`;
+  }
+  if (kind === 'resource') {
+    return `<div class="res-download-row" style="margin-top:14px;">
+      <span class="dl-count">${item.downloads||0} downloads</span>
+      <button class="download-btn" onclick="downloadResource(${item.id})">${iconSVG('download')} Download</button>
+    </div>`;
+  }
+  if (kind === 'grant-mine') {
+    const st = item.status;
+    const label = st==='approved'?'Approved':(st==='rejected'?'Not approved':'Pending review');
+    const cls = st==='approved'?'badge-approved':(st==='rejected'?'badge-rejected':'badge-pending');
+    return `<div style="margin-top:14px;"><span class="badge-status ${cls}">${label}</span></div>`;
+  }
+  return '';
+}
+window.openCardDetail = function(key){
+  const entry = CARD_LOOKUP[key];
+  if (!entry) return;
+  const { kind, item } = entry;
+  const tag = item.category || item.cat || (kind==='resource' ? item.course_code : 'Details');
+  document.getElementById('modal-tag').textContent = tag;
+  document.getElementById('modal-tag').className = 'tag-pill ' + tagClass(item.category||item.cat);
+  document.getElementById('modal-title').textContent = item.title || '';
+  document.getElementById('modal-desc').textContent = item.description || item.desc || 'No further details provided.';
+  document.querySelector('.map-thumb').style.display = 'none';
+  document.getElementById('modal-meta').textContent = item.meta || (item.uploader_name ? `Uploaded by ${item.uploader_name}` : '');
+  document.getElementById('modal-extra').innerHTML = cardDetailExtraHTML(kind, item);
+  backdrop.classList.add('open');
+};
+document.addEventListener('click', (e)=>{
+  if (e.target.closest('button, a, input, select, textarea')) return; // let interactive controls handle their own click
+  const card = e.target.closest('.card[data-key]');
+  if (!card) return;
+  openCardDetail(card.dataset.key);
+});
 
 /* ---------------- PROFILE ---------------- */
 const photoInput = document.getElementById('profile-photo-input');
