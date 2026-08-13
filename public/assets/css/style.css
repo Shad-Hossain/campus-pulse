@@ -151,8 +151,9 @@ nav.side-nav{display:flex;flex-direction:column;gap:2px;flex:1;}
   color:#241505;padding:3px 8px;border-radius:5px;letter-spacing:.04em;font-weight:600;
 }
 .ticker-track{flex:1;overflow:hidden;white-space:nowrap;position:relative;height:18px;cursor:pointer;}
-.ticker-track span{position:absolute;left:0;font-size:13px;animation:scroll-left 24s linear infinite;white-space:nowrap;}
-@keyframes scroll-left{0%{left:0;}100%{left:-100%;}}
+.ticker-track-inner{display:inline-flex;position:absolute;left:0;top:0;animation:scroll-left 30s linear infinite;white-space:nowrap;}
+.ticker-item{font-size:13px;white-space:nowrap;padding-right:60px;}
+@keyframes scroll-left{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
 
 .view{display:none;}
 .view.active{display:block;animation:fadeSlide .35s var(--ease);}

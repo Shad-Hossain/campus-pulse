@@ -167,7 +167,12 @@
 
       <div class="ticker">
         <span class="tk-label">LIVE</span>
-        <div class="ticker-track" id="ticker-click"><span id="ticker-text">Heavy traffic reported on Satarkul Road near campus gate · Light rain expected this evening, carry umbrella · Mid-term routine published for Summer 2026 · Robotics Fest registration closes Thursday</span></div>
+        <div class="ticker-track" id="ticker-click">
+          <div class="ticker-track-inner" id="ticker-inner">
+            <span class="ticker-item" id="ticker-text">Heavy traffic reported on Satarkul Road near campus gate · Light rain expected this evening, carry umbrella · Mid-term routine published for Summer 2026 · Robotics Fest registration closes Thursday</span>
+            <span class="ticker-item" id="ticker-text-2" aria-hidden="true">Heavy traffic reported on Satarkul Road near campus gate · Light rain expected this evening, carry umbrella · Mid-term routine published for Summer 2026 · Robotics Fest registration closes Thursday</span>
+          </div>
+        </div>
       </div>
 
       <!-- ---- HOME ---- -->
