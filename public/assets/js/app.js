@@ -1,3 +1,8 @@
+/* ============================================================
+   Campus Pulse — frontend logic
+   Talks to the PHP API in /api/*.php (JSON over fetch, session-
+   cookie auth). Renders the same markup/CSS as the prototype.
+   ============================================================ */
 
 /* ---------------- API HELPER ---------------- */
 async function api(path, { method = 'GET', json = null, form = null } = {}) {
@@ -471,6 +476,7 @@ document.getElementById('search-filter').addEventListener('click', (e)=>{
   e.target.classList.add('active'); activeSearchCat = e.target.dataset.cat; runSearch();
 });
 function debounce(fn, ms){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), ms); }; }
+runSearch();
 
 /* ---------------- ALERT MODAL ---------------- */
 const backdrop = document.getElementById('modal-backdrop');
