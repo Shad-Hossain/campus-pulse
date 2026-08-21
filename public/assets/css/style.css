@@ -15,7 +15,7 @@
 *{box-sizing:border-box;}
 body{margin:0;font-family:'IBM Plex Sans',sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;}
 h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;margin:0;letter-spacing:-.01em;}
-button{font-family:inherit;cursor:pointer;}
+button{font-family:inherit;cursor:pointer;color:inherit;}
 a{color:inherit;}
 ::selection{background:var(--moss-light);}
 
