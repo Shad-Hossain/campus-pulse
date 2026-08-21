@@ -1,8 +1,3 @@
-/* ============================================================
-   Campus Pulse — frontend logic
-   Talks to the PHP API in /api/*.php (JSON over fetch, session-
-   cookie auth). Renders the same markup/CSS as the prototype.
-   ============================================================ */
 
 /* ---------------- API HELPER ---------------- */
 async function api(path, { method = 'GET', json = null, form = null } = {}) {
@@ -635,10 +630,12 @@ document.getElementById('bell-mark-all').addEventListener('click', (e)=>{
 applyNotifReadState();
 
 /* ---------------- THEME TOGGLE ---------------- */
-let isDark = false;
+let isDark = localStorage.getItem('theme') === 'dark';
+document.documentElement.setAttribute('data-theme', isDark?'dark':'light');
 document.getElementById('theme-toggle').addEventListener('click', ()=>{
   isDark = !isDark;
   document.documentElement.setAttribute('data-theme', isDark?'dark':'light');
+  localStorage.setItem('theme', isDark?'dark':'light');
 });
 
 /* ---------------- LIVE COUNTER (ambient real-time feel) ---------------- */

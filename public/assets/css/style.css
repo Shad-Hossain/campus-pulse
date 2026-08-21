@@ -193,7 +193,7 @@ nav.side-nav{display:flex;flex-direction:column;gap:2px;flex:1;}
 .card h3{font-size:15.5px;margin-bottom:6px;line-height:1.35;}
 .card p{font-size:12.5px;color:var(--muted);margin:0;line-height:1.55;}
 .card .meta{margin-top:11px;font-size:11px;color:var(--muted-soft);display:flex;justify-content:space-between;}
-.card .status-pending{color:var(--amber);font-weight:600;}
+.card .status-pending{color:var(--amber-ink);font-weight:600;}
 .card .status-approved{color:var(--moss-ink);font-weight:600;}
 .card-actions{display:flex;gap:8px;margin-top:11px;}
 .mini-btn{
@@ -313,6 +313,7 @@ table.directory tr:last-child td{border-bottom:none;}
 /* ---------- DARK MODE ---------- */
 html[data-theme="dark"]{
   --ink:#EAE3CC; --paper:#16140E; --panel:#1E1B13; --line:#3A331F; --line-soft:#2A2718;
+  --moss:#3E8B62; --moss-dark:#2C6B48;
   --moss-light:#213026; --amber-light:#3A2E12; --indigo-light:#1D212E; --clay-light:#332020;
   --ok-light:#1B2E20; --muted:#B3A587; --muted-soft:#7C7256;
   --moss-ink:#9FE0B2; --amber-ink:#F0D190; --clay-ink:#F3AEB4; --indigo-ink:#B9C4EC; --ok-dark:#8FD6A5;
